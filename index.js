@@ -1,7 +1,7 @@
 
 window.onload = () =>{
     const ui = SwaggerUIBundle({
-        // url: "https://petstore.swagger.io/v2/swagger.json",
+        validatirUrl:undefined,
         spec: window.spec,
         dom_id: '#swagger-ui',
         deepLinking: true,

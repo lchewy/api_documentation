@@ -41,7 +41,8 @@ window.spec = {
             in: "path",
             description: "a player's id from SR model",
             type: "string",
-            schema: { $ref: "#/definitions/Player" }
+            // schema: { $ref: "#/definitions/Player" },
+            required: true
           }
         ],
         responses: {
@@ -72,7 +73,8 @@ window.spec = {
             in: "path",
             description: "provide team id from SR model",
             type: "string",
-            schema: { $ref: "#/definitions/Team" }
+            schema: { $ref: "#/definitions/Team" },
+            required: true
           }
         ],
         responses: {
@@ -114,10 +116,11 @@ window.spec = {
             $ref: "#/definitions/PlayerTeam",
             draft: {
               type: "object",
+              required: ["#/definitions/PlayerTeam"],
               properties: {
-                year: { type: "integer", format: "int32" },
-                round: { type: "integer", format: "int32" },
-                number: { type: "integer", format: "int32" },
+                year: { $ref: "#/definitions/INT32" },
+                round: { $ref: "#/definitions/INT32" },
+                number: { $ref: "#/definitions/INT32" },
                 $ref: "#/definitions/PlayerTeam"
               }
             },
@@ -136,20 +139,17 @@ window.spec = {
                         right_pct: { type: "number", format: "float" },
                         right_yard_per_run: { type: "string" },
                         player_total_runs_across_all_zones: {
-                          type: "integer",
-                          format: "int32"
+                          $ref: "#/definitions/INT32"
                         },
-                        outside_left_pct: { type: "integer", format: "int32" },
+                        outside_left_pct: { $ref: "#/definitions/INT32" },
                         outside_left_ypc: { type: "number", format: "float" },
                         between_the_tackles_pct: {
-                          type: "integer",
-                          format: "int32"
+                          $ref: "#/definitions/INT32"
                         },
                         between_the_tackles_ypc: {
-                          type: "integer",
-                          format: "int32"
+                          $ref: "#/definitions/INT32"
                         },
-                        outside_right_pct: { type: "integer", format: "int32" },
+                        outside_right_pct: { $ref: "#/definitions/INT32" },
                         outside_right_ypc: { type: "number", format: "float" },
                         outside_between_tackles_text_desc: { type: "string" }
                       }
@@ -158,38 +158,60 @@ window.spec = {
                     league_run: {
                       type: "object",
                       properties: {
-                        outside_left_pct: { type: "integer", format: "int32" },
+                        outside_left_pct: { $ref: "#/definitions/INT32" },
                         outside_left_ypc: { type: "number", format: "float" },
                         between_the_tackles_pct: {
-                          type: "integer",
-                          format: "int32"
+                          $ref: "#/definitions/INT32"
                         },
                         between_the_tackles_ypc: {
                           type: "number",
                           format: "float"
                         },
-                        outside_right_pct: { type: "integer", format: "int32" },
+                        outside_right_pct: { $ref: "#/definitions/INT32" },
                         outside_right_ypc: { type: "number", format: "float" }
                       }
                     },
 
-                    zone: {
-                      type: "array",
-                      items: {
-                        type: "object",
-                        properties: {
-                          types: { type: "string" },
-                          reception_dec: { type: "string" },
-                          reception_img: { type: "string" },
-                          reception: {
-                            type: "array",
-                            items: { type: "integer", format: "int32" }
-                          },
-                          target_desc: { type: "string" },
-                          target_img: { type: "string" },
-                          reception_rate: {
-                            type: "array",
-                            items: { type: "integers", format: "int32" }
+                    zone: { $ref: "#/definitions/Zone" }
+                  }
+                },
+                most_run_routes: { type: "array" }, // EMPTY ARRAY ON ENDPOINT, NEED TO TEST ANOTHER PLAYER
+                routes: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      season: { $ref: "#/definitions/INT32" },
+                      date_string: { type: "string" },
+                      player_positon: { type: "string" },
+                      targets: { $ref: "#/definitions/INT32" },
+                      receptions: { $ref: "#/definitions/INT32" },
+                      total_yards: { $ref: "#/definitions/INT32" },
+                      touchdowns: { $ref: "#/definitions/INT32" },
+                      game_ID: {
+                        type: "array",
+                        items: { $ref: "#/definitions/INT32" }
+                      },
+                      routes: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            pass_caught: { type: "boolean" },
+                            yardage_gained: { $ref: "#/definitions/INT32" },
+                            play_ID: { $ref: "#/definitions/INT32" },
+                            pass_caught_index: { $ref: "#/definitions/INT32" },
+                            touchdown: { type: "boolean" },
+                            coords: {
+                              type: "array",
+                              items: {
+                                type: "object",
+                                properties: {
+                                  x: { type: "number", format: "float" },
+                                  y: { type: "number", format: "float" }
+                                }
+                              }
+                            }
                           }
                         }
                       }
@@ -209,30 +231,17 @@ window.spec = {
         type: "object",
         properties: {
           team: {
-            type: "object",
-            properties: {
-              id: { type: "string" },
-              name: { type: "string" },
-              market: { type: "string" },
-              alias: { type: "string" }
-            }
+            allOf: [
+              { $ref: "#/definitions/INA" },
+              {
+                properties: {
+                  market: { type: "string" }
+                }
+              }
+            ]
           },
-          conference: {
-            type: "object",
-            properties: {
-              id: { type: "string" },
-              name: { type: "string" },
-              alias: { type: "string" }
-            }
-          },
-          division: {
-            type: "object",
-            properties: {
-              id: { type: "string" },
-              name: { type: "string" },
-              alias: { type: "string" }
-            }
-          },
+          conference: { $ref: "#/definitions/INA" },
+          division: { $ref: "#/definitions/INA" },
           venue: {
             type: "object",
             properties: {
@@ -254,22 +263,11 @@ window.spec = {
               offense: {
                 type: "object",
                 properties: {
-                  $ref: "#/definitions/Formations",
-                  zone: {
+                  formation: {
                     type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        type: { type: "string" },
-                        reception_desc: { type: "string" },
-                        reception_img: { type: "string" },
-                        reception: {
-                          type: "array",
-                          items: { type: "integers", format: "int32" }
-                        }
-                      }
-                    }
-                  }
+                    items: { $ref: "#/definitions/Formations" }
+                  },
+                  zone: { type: "array", items: { $ref: "#/definitions/Zone" } }
                 }
               }
             }
@@ -277,7 +275,11 @@ window.spec = {
           defense: {
             type: "object",
             properties: {
-              $ref: "#/definitions/Formations"
+              formation: {
+                type: "array",
+                items: { $ref: "#/definitions/Formations" }
+              },
+              zone: { type: "array", items: { $ref: "#/definitions/Zone" } }
             }
           }
         }
@@ -285,29 +287,24 @@ window.spec = {
     },
 
     Formations: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          type: { type: "string" },
-          num_plays_lined_up: {
-            type: "integer",
-            format: "int32"
-          },
-          num_plays_lined_up_pct: {
-            type: "number",
-            format: "float"
-          },
-          num_plays_lined_up_rnk: {
-            type: "integer",
-            format: "int32"
-          },
-          yards_play: { type: "number", format: "float" },
-          tds: { type: "integer", format: "int32" },
-          tds_rnk: { type: "integer", format: "int32" },
-          tds_rnk_desc: { type: "string" },
-          tds_rnk_img: { type: "string" }
-        }
+      type: "object",
+      properties: {
+        type: { type: "string" },
+        num_plays_lined_up: {
+          $ref: "#/definitions/INT32"
+        },
+        num_plays_lined_up_pct: {
+          type: "number",
+          format: "float"
+        },
+        num_plays_lined_up_rnk: {
+          $ref: "#/definitions/INT32"
+        },
+        yards_play: { type: "number", format: "float" },
+        tds: { $ref: "#/definitions/INT32" },
+        tds_rnk: { $ref: "#/definitions/INT32" },
+        tds_rnk_desc: { type: "string" },
+        tds_rnk_img: { type: "string" }
       }
     },
 
@@ -319,6 +316,178 @@ window.spec = {
         market: { type: "string" },
         alias: { type: "string" }
       }
+    },
+    // ARRAY OF INTEGERS
+    ArrayOfIntegers: {
+      type: "array",
+      items: {
+        $ref: "#/definitions/INT32"
+      }
+    },
+
+    // INT32
+    INT32: {
+      type: "integer",
+      format: "int32"
+    },
+
+    // ID & NAME & ALIAS
+    INA: {
+      type: "object",
+      properties: {
+        id: { type: "string" },
+        name: { type: "string" },
+        alias: { type: "string" }
+      }
+    },
+
+    // ZONE
+    Zone: {
+      // type: "array",
+      // items: {
+        type: "object",
+        properties: {
+          type: { type: "string", pattern: "" }, //INSERT PATTERN FOR ZONE TYPES
+          reception_desc: { type: "string" },
+          reception_img: { type: "string" },
+          reception_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception: { $ref: "#/definitions/ArrayOfIntegers" },
+          target_desc: { type: "string" },
+          target_img: { type: "string" },
+          target_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target: { $ref: "#/definitions/ArrayOfIntegers" },
+          reception_rate_desc: { type: "string" },
+          reception_rate_img: { type: "string" },
+          reception_rate_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_desc: { type: "string" },
+          yards_per_reception_img: { type: "string" },
+          yards_per_reception_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate: {
+            $ref: "#/definitions/ArrayOfIntegers"
+          },
+          yards_per_target_desc: { type: "string" },
+          yards_per_target_img: { type: "string" },
+          yards_per_target_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target: {
+            $ref: "#/definitions/ArrayOfIntegers"
+          }
+        }
+      // }
     }
   },
 

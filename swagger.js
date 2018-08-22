@@ -41,7 +41,7 @@ window.spec = {
             in: "path",
             description: "a player's id from SR model",
             type: "string",
-            // schema: { $ref: "#/definitions/Player" },
+            // schema: { $ref: "#/definitions/Player" },    d
             required: true
           }
         ],

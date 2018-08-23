@@ -41,140 +41,14 @@ window.spec = {
             in: "path",
             description: "a player's id from SR model",
             type: "string",
-            // schema: { $ref: "#/definitions/Player" },
+            // schema: { $ref: "#/definitions/Player" },    d
             required: true
           }
         ],
         responses: {
           "200": {
             description: "successful operations",
-            schema: {
-              type: "object",
-              properties: {
-                success: { type: "boolean" },
-                response: {
-                  type: "object",
-                  properties: {
-                    response: {
-                      type: "object",
-                      properties: {
-                        id: { type: "string" },
-                        last_name: { type: "string" },
-                        first_name: { type: "string" },
-                        birth_date: { type: "string" },
-                        weight: { type: "integer" },
-                        height: { type: "integer" },
-                        position: { type: "string" },
-                        birth_place: { type: "string" },
-                        high_school: { type: "string" },
-                        college: { type: "string" },
-                        college_conf: { type: "string" },
-                        rookie_year: { type: "string" },
-                        team: { $ref: "#/definitions/PlayerTeam" },
-                        draft: {
-                          type: "object",
-                          required: ["#/definitions/PlayerTeam"],
-                          properties: {
-                            year: { $ref: "#/definitions/INT32" },
-                            round: { $ref: "#/definitions/INT32" },
-                            number: { $ref: "#/definitions/INT32" },
-                            team: { $ref: "#/definitions/PlayerTeam" }
-                          }
-                        },
-                        statistics: {
-                          type: "object",
-                          properties: {
-                            offense: {
-                              type: "object",
-                              properties: {
-                                player_run: {
-                                  type: "object",
-                                  properties: {
-                                    player_name: { type: "string" },
-                                    left_pct: {
-                                      type: "number",
-                                      format: "float"
-                                    },
-                                    left_yard_per_run: { type: "string" },
-                                    right_pct: {
-                                      type: "number",
-                                      format: "float"
-                                    },
-                                    right_yard_per_run: { type: "string" },
-                                    player_total_runs_across_all_zones: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    outside_left_pct: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    outside_left_ypc: {
-                                      type: "number",
-                                      format: "float"
-                                    },
-                                    between_the_tackles_pct: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    between_the_tackles_ypc: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    outside_right_pct: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    outside_right_ypc: {
-                                      type: "number",
-                                      format: "float"
-                                    },
-                                    outside_between_tackles_text_desc: {
-                                      type: "string"
-                                    }
-                                  }
-                                },
-
-                                league_run: {
-                                  type: "object",
-                                  properties: {
-                                    outside_left_pct: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    outside_left_ypc: {
-                                      type: "number",
-                                      format: "float"
-                                    },
-                                    between_the_tackles_pct: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    between_the_tackles_ypc: {
-                                      type: "number",
-                                      format: "float"
-                                    },
-                                    outside_right_pct: {
-                                      $ref: "#/definitions/INT32"
-                                    },
-                                    outside_right_ypc: {
-                                      type: "number",
-                                      format: "float"
-                                    }
-                                  }
-                                },
-
-                                zone: { $ref: "#/definitions/Zone" }
-                              }
-                            },
-                            most_run_routes: { type: "array" }, // EMPTY ARRAY ON ENDPOINT, NEED TO TEST ANOTHER PLAYER
-                            routes: {
-                              type: "array",
-                              items: {
-                                $ref: "#/definitions/PlayerRoutes"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            schema: { $ref: "#/definitions/Player" }
           },
           "400": {
             description: "Invalid ID supplied"
@@ -220,185 +94,133 @@ window.spec = {
   },
 
   definitions: {
-    // Player: {
-    //   type: "object",
-    //   properties: {
-    //     id: { type: "string" },
-    //     last_name: { type: "string" },
-    //     first_name: { type: "string" },
-    //     birth_date: { type: "string" },
-    //     weight: { type: "integer" },
-    //     height: { type: "integer" },
-    //     position: { type: "string" },
-    //     birth_place: { type: "string" },
-    //     high_school: { type: "string" },
-    //     college: { type: "string" },
-    //     college_conf: { type: "string" },
-    //     rookie_year: { type: "string" },
-    //     team: { $ref: "#/definitions/PlayerTeam" },
-    //     draft: {
-    //       type: "object",
-    //       required: ["#/definitions/PlayerTeam"],
-    //       properties: {
-    //         year: { $ref: "#/definitions/INT32" },
-    //         round: { $ref: "#/definitions/INT32" },
-    //         number: { $ref: "#/definitions/INT32" },
-    //         team: { $ref: "#/definitions/PlayerTeam" }
-    //       }
-    //     },
-    //     statistics: {
-    //       type: "object",
-    //       properties: {
-    //         offense: {
-    //           type: "object",
-    //           properties: {
-    //             player_run: {
-    //               type: "object",
-    //               properties: {
-    //                 player_name: { type: "string" },
-    //                 left_pct: { type: "number", format: "float" },
-    //                 left_yard_per_run: { type: "string" },
-    //                 right_pct: { type: "number", format: "float" },
-    //                 right_yard_per_run: { type: "string" },
-    //                 player_total_runs_across_all_zones: {
-    //                   $ref: "#/definitions/INT32"
-    //                 },
-    //                 outside_left_pct: { $ref: "#/definitions/INT32" },
-    //                 outside_left_ypc: { type: "number", format: "float" },
-    //                 between_the_tackles_pct: {
-    //                   $ref: "#/definitions/INT32"
-    //                 },
-    //                 between_the_tackles_ypc: {
-    //                   $ref: "#/definitions/INT32"
-    //                 },
-    //                 outside_right_pct: { $ref: "#/definitions/INT32" },
-    //                 outside_right_ypc: { type: "number", format: "float" },
-    //                 outside_between_tackles_text_desc: { type: "string" }
-    //               }
-    //             },
+    Player: {
+      success: { type: "boolean" },
+      response: {
+        type: "object",
+        properties: {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+            last_name: { type: "string" },
+            first_name: { type: "string" },
+            birth_date: { type: "string" },
+            weight: { type: "integer" },
+            height: { type: "integer" },
+            position: { type: "string" },
+            birth_place: { type: "string" },
+            high_school: { type: "string" },
+            college: { type: "string" },
+            college_conf: { type: "string" },
+            rookie_year: { type: "string" },
+            $ref: "#/definitions/PlayerTeam",
+            draft: {
+              type: "object",
+              required: ["#/definitions/PlayerTeam"],
+              properties: {
+                year: { $ref: "#/definitions/INT32" },
+                round: { $ref: "#/definitions/INT32" },
+                number: { $ref: "#/definitions/INT32" },
+                $ref: "#/definitions/PlayerTeam"
+              }
+            },
+            statistics: {
+              type: "object",
+              properties: {
+                offense: {
+                  type: "object",
+                  properties: {
+                    player_run: {
+                      type: "object",
+                      properties: {
+                        player_name: { type: "string" },
+                        left_pct: { type: "number", format: "float" },
+                        left_yard_per_run: { type: "string" },
+                        right_pct: { type: "number", format: "float" },
+                        right_yard_per_run: { type: "string" },
+                        player_total_runs_across_all_zones: {
+                          $ref: "#/definitions/INT32"
+                        },
+                        outside_left_pct: { $ref: "#/definitions/INT32" },
+                        outside_left_ypc: { type: "number", format: "float" },
+                        between_the_tackles_pct: {
+                          $ref: "#/definitions/INT32"
+                        },
+                        between_the_tackles_ypc: {
+                          $ref: "#/definitions/INT32"
+                        },
+                        outside_right_pct: { $ref: "#/definitions/INT32" },
+                        outside_right_ypc: { type: "number", format: "float" },
+                        outside_between_tackles_text_desc: { type: "string" }
+                      }
+                    },
 
-    //             league_run: {
-    //               type: "object",
-    //               properties: {
-    //                 outside_left_pct: { $ref: "#/definitions/INT32" },
-    //                 outside_left_ypc: { type: "number", format: "float" },
-    //                 between_the_tackles_pct: {
-    //                   $ref: "#/definitions/INT32"
-    //                 },
-    //                 between_the_tackles_ypc: {
-    //                   type: "number",
-    //                   format: "float"
-    //                 },
-    //                 outside_right_pct: { $ref: "#/definitions/INT32" },
-    //                 outside_right_ypc: { type: "number", format: "float" }
-    //               }
-    //             },
+                    league_run: {
+                      type: "object",
+                      properties: {
+                        outside_left_pct: { $ref: "#/definitions/INT32" },
+                        outside_left_ypc: { type: "number", format: "float" },
+                        between_the_tackles_pct: {
+                          $ref: "#/definitions/INT32"
+                        },
+                        between_the_tackles_ypc: {
+                          type: "number",
+                          format: "float"
+                        },
+                        outside_right_pct: { $ref: "#/definitions/INT32" },
+                        outside_right_ypc: { type: "number", format: "float" }
+                      }
+                    },
 
-    //             zone: { $ref: "#/definitions/Zone" }
-    //           }
-    //         },
-    //         most_run_routes: { type: "array" }, // EMPTY ARRAY ON ENDPOINT, NEED TO TEST ANOTHER PLAYER
-    //         routes: {
-    //           type: "array",
-    //           items: {
-    //             type: "object",
-    //             properties: {
-    //               season: { $ref: "#/definitions/INT32" },
-    //               date_string: { type: "string" },
-    //               player_positon: { type: "string" },
-    //               targets: { $ref: "#/definitions/INT32" },
-    //               receptions: { $ref: "#/definitions/INT32" },
-    //               total_yards: { $ref: "#/definitions/INT32" },
-    //               touchdowns: { $ref: "#/definitions/INT32" },
-    //               game_ID: {
-    //                 type: "array",
-    //                 items: { $ref: "#/definitions/INT32" }
-    //               },
-    //               routes: {
-    //                 type: "array",
-    //                 items: {
-    //                   type: "object",
-    //                   properties: {
-    //                     pass_caught: { type: "boolean" },
-    //                     yardage_gained: { $ref: "#/definitions/INT32" },
-    //                     play_ID: { $ref: "#/definitions/INT32" },
-    //                     pass_caught_index: { $ref: "#/definitions/INT32" },
-    //                     touchdown: { type: "boolean" },
-    //                     coords: {
-    //                       type: "array",
-    //                       items: {
-    //                         type: "object",
-    //                         properties: {
-    //                           x: { type: "number", format: "float" },
-    //                           y: { type: "number", format: "float" }
-    //                         }
-    //                       }
-    //                     }
-    //                   }
-    //                 }
-    //               }
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
-    PlayerRoutes: {
-      type: "object",
-      properties: {
-        season: { $ref: "#/definitions/INT32" },
-        date_string: { type: "string" },
-        player_positon: { type: "string" },
-        targets: { $ref: "#/definitions/INT32" },
-        receptions: { $ref: "#/definitions/INT32" },
-        total_yards: { $ref: "#/definitions/INT32" },
-        touchdowns: { $ref: "#/definitions/INT32" },
-        game_ID: {
-          type: "array",
-          items: { $ref: "#/definitions/INT32" }
-        },
-        routes: {
-          type: "array",
-          items: {
-            $ref: "#/definitions/PlayerSubRoutes"
+                    zone: { $ref: "#/definitions/Zone" }
+                  }
+                },
+                most_run_routes: { type: "array" }, // EMPTY ARRAY ON ENDPOINT, NEED TO TEST ANOTHER PLAYER
+                routes: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      season: { $ref: "#/definitions/INT32" },
+                      date_string: { type: "string" },
+                      player_positon: { type: "string" },
+                      targets: { $ref: "#/definitions/INT32" },
+                      receptions: { $ref: "#/definitions/INT32" },
+                      total_yards: { $ref: "#/definitions/INT32" },
+                      touchdowns: { $ref: "#/definitions/INT32" },
+                      game_ID: {
+                        type: "array",
+                        items: { $ref: "#/definitions/INT32" }
+                      },
+                      routes: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            pass_caught: { type: "boolean" },
+                            yardage_gained: { $ref: "#/definitions/INT32" },
+                            play_ID: { $ref: "#/definitions/INT32" },
+                            pass_caught_index: { $ref: "#/definitions/INT32" },
+                            touchdown: { type: "boolean" },
+                            coords: {
+                              type: "array",
+                              items: {
+                                type: "object",
+                                properties: {
+                                  x: { type: "number", format: "float" },
+                                  y: { type: "number", format: "float" }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
-      }
-    },
-    PlayerSubRoutes: {
-      type: "object",
-      properties: {
-        pass_caught: { type: "boolean" },
-        yardage_gained: {
-          $ref: "#/definitions/INT32"
-        },
-        play_ID: {
-          $ref: "#/definitions/INT32"
-        },
-        pass_caught_index: {
-          $ref: "#/definitions/INT32"
-        },
-        touchdown: { type: "boolean" },
-        coords: {
-          type: "array",
-          items: {
-            $ref: "#/definitions/Coords"
-          }
-        }
-      }
-    },
-
-    Coords: {
-      type: "object",
-      properties: {
-        x: {
-          type: "number",
-          format: "float"
-        },
-        y: {
-          type: "number",
-          format: "float"
         }
       }
     },
@@ -521,148 +343,151 @@ window.spec = {
 
     // ZONE
     Zone: {
-      type: "object",
-      properties: {
-        type: { type: "string", pattern: "" }, //INSERT PATTERN FOR ZONE TYPES
-        reception_desc: { type: "string" },
-        reception_img: { type: "string" },
-        reception_backfield: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception_0_10: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception_10_20: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception_20_plus: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception: { $ref: "#/definitions/ArrayOfIntegers" },
-        target_desc: { type: "string" },
-        target_img: { type: "string" },
-        target_backfield: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        target_0_10: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        target_10_20: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        target_20_plus: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        target: { $ref: "#/definitions/ArrayOfIntegers" },
-        reception_rate_desc: { type: "string" },
-        reception_rate_img: { type: "string" },
-        reception_rate_backfield: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception_rate_0_10: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception_rate_10_20: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception_rate_20_plus: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_reception_desc: { type: "string" },
-        yards_per_reception_img: { type: "string" },
-        yards_per_reception_backfield: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_reception_0_10: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_reception_10_20: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_reception_20_plus: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        reception_rate: {
-          $ref: "#/definitions/ArrayOfIntegers"
-        },
-        yards_per_target_desc: { type: "string" },
-        yards_per_target_img: { type: "string" },
-        yards_per_target_backfield: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_target_0_10: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_target_10_20: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_target_20_plus: {
-          oneOf: [
-            { $ref: "#/definitions/INT32" },
-            { $ref: "#/definitions/ArrayOfIntegers" }
-          ]
-        },
-        yards_per_target: {
-          $ref: "#/definitions/ArrayOfIntegers"
+      // type: "array",
+      // items: {
+        type: "object",
+        properties: {
+          type: { type: "string", pattern: "" }, //INSERT PATTERN FOR ZONE TYPES
+          reception_desc: { type: "string" },
+          reception_img: { type: "string" },
+          reception_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception: { $ref: "#/definitions/ArrayOfIntegers" },
+          target_desc: { type: "string" },
+          target_img: { type: "string" },
+          target_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          target: { $ref: "#/definitions/ArrayOfIntegers" },
+          reception_rate_desc: { type: "string" },
+          reception_rate_img: { type: "string" },
+          reception_rate_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_desc: { type: "string" },
+          yards_per_reception_img: { type: "string" },
+          yards_per_reception_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_reception_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          reception_rate: {
+            $ref: "#/definitions/ArrayOfIntegers"
+          },
+          yards_per_target_desc: { type: "string" },
+          yards_per_target_img: { type: "string" },
+          yards_per_target_backfield: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target_0_10: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target_10_20: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target_20_plus: {
+            oneOf: [
+              { $ref: "#/definitions/INT32" },
+              { $ref: "#/definitions/ArrayOfIntegers" }
+            ]
+          },
+          yards_per_target: {
+            $ref: "#/definitions/ArrayOfIntegers"
+          }
         }
-      }
+      // }
     }
   },
 

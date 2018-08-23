@@ -1,8 +1,13 @@
+import swagger from "./swagger.json"
+
+import test from "./json"
+
+console.log("KDASDFADSF ",test)
 
 window.onload = () =>{
     const ui = SwaggerUIBundle({
         validatirUrl:undefined,
-        spec: window.spec,
+        spec: test,
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [

@@ -86,13 +86,14 @@ export default {
         schema: {
           type: "object",
 
-          properties: {
-            success: { type: "boolean" },
-            response: {
-              type: "object",
-              properties: responseProps
-            }
-          }
+          properties: responseProps
+          // {
+          //   success: { type: "boolean" },
+          //   response: {
+          //     type: "object",
+          //     properties: responseProps
+          //   }
+          // }
         }
       },
       "400": { description: "Invalid Id supplied" },

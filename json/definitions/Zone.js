@@ -4,7 +4,7 @@ import ArrayOfIntegers from "./ArrayOfIntegers";
 export default {
   type: "object",
   properties: {
-    type: { type: "string", pattern: "" },
+    type: { type: "string", pattern: "/^(3-zone)$|^(4-zone)$|^(12-zone)$/" },
     reception_desc: { type: "string" },
     reception_img: { type: "string" },
     reception_backfield: {

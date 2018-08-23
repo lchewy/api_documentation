@@ -1,7 +1,7 @@
 import playerTeam from "../../definitions/PlayerTeam";
 import draft from "./draft";
 import statistics from "./statistics";
-
+import INT32 from "../../definitions/Int32"
 const responseProps = {
   // success: { type: "boolean" },
   // response: {
@@ -10,25 +10,25 @@ const responseProps = {
   //     player: {
   //       type: "object",
   //       properties: {
-          id: { type: "string" },
-          last_name: { type: "string" },
-          first_name: { type: "string" },
-          birth_date: { type: "string" },
-          weight: { type: "integer" },
-          height: { type: "integer" },
-          position: { type: "string" },
-          birth_place: { type: "string" },
-          high_school: { type: "string" },
-          college: { type: "string" },
-          college_conf: { type: "string" },
-          rookie_year: { type: "string" },
-          team: playerTeam,
-          draft: draft,
-          statistics: statistics
-        }
-  //     }
-  //   }
-  // }
+ player:{ id: { type: "string" },
+  last_name: { type: "string" },
+  first_name: { type: "string" },
+  birth_date: { type: "string" },
+  weight: INT32,
+  height: INT32,
+  position: { type: "string" },
+  birth_place: { type: "string" },
+  high_school: { type: "string" },
+  college: { type: "string" },
+  college_conf: { type: "string" },
+  rookie_year: INT32,
+  team: playerTeam,
+  draft: draft,
+  statistics: statistics}
+};
+//     }
+//   }
+// }
 // };
 
 export default {
@@ -53,12 +53,11 @@ export default {
         schema: {
           type: "object",
           properties: {
-            success:{type:"boolean"},
-            response:{
-              type:"object",
-              properties:{
-                player: responseProps
-              }
+            success: { type: "boolean" },
+            response: {
+              type: "object",
+              properties:  responseProps
+
             }
           }
         }
